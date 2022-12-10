@@ -1,16 +1,25 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Music(models.Model):
     music_title = models.CharField(max_length=100)
     music_artist = models.CharField(max_length=100)
-    music_albumpic = models.CharField(max_length=100)
+    #music_albumpic = models.CharField(max_length=100, null=True, blank=True)
+    music_picture = models.ImageField(null=True)
+
+    def __str__(self):
+        return self.music_title
 
 
 class Playlist(models.Model):
-    music_title = models.CharField(max_length=100)
-    music_artist = models.CharField(max_length=100)
-    music_albumpic = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    music = models.ForeignKey(Music, on_delete=models.CASCADE)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'music'], name='unique_user_playlist'),
+        ]
 
     ##do not need to create a user table, django already has it when database was created, it's called auth_user.
     ## in the view just do if form.is.valid(): form.save()   return

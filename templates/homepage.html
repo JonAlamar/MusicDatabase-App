@@ -4,109 +4,159 @@
 {% block body %}
 
 
-<nav class="navbar navbar-expand-lg bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled">Disabled</a>
-        </li>
-      </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
-    </div>
-  </div>
-</nav>
-
-
-<p>here</p>
-<img id="myp" src="" width="300px">
-<p>here</p>
-
-{% if t %}
-
-{% endif %} 
-
-
-<div id="hide" class="container rounded bg-white my-5 shadow p-5">
-<div class="row g-2">
-{% for music in music %}
-    <div class="card p-2 m-2 border border-primary" style="width: 18rem;">
-        <img class="card-img-top" src="{% static music.music_albumpic %}" alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title">
-                {{ music.music_title }}
-            </h5>
-            <p class="card-text">
-                {{ music.music_artist }}</p>
-            <div class="container">
-                <div class="row">
-                    <div class="col-4">
-                        <a href="#" class="btn btn-primary"><img src="{% static 'images/heart.png' %}" alt="heart" class="img-fluid"></a>
-                    </div>
-                </div>
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled">Disabled</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
             </div>
         </div>
+    </nav>
+
+
+    <p>here</p>
+    <img id="myp" src="" width="300px" class="text-center">
+    <p>here</p>
+
+    <div id="alert"></div>
+
+
+
+    {% for message in messages %}
+        <div class="alert alert-danger" role="alert">{{ message }} </div>
+    {% endfor %}
+
+
+
+    <div id="hide" class="container rounded bg-white my-5 shadow p-5">
+        <div class="row g-2">
+            {% for music in music %}
+                <div class="card p-2 m-2 border border-primary" style="width: 18rem;">
+                    <img class="card-img-top" src="{% static music.music_picture.url %}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {{ music.music_title }}
+                        </h5>
+                        <p class="card-text">
+                            {{ music.music_artist }}</p>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-4">
+                                    <form action="{% url 'liked' %}" method="post" id="like-form">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="music-id" value="{{ music.id }}">
+                                            {% if music.id in playlist_ids %}
+                                                <input type="hidden" name="like-status" value="0">
+                                                <button class="btn btn-secondary heart">
+                                                    <img src="{% static 'images/heart.png' %}" alt="heart" class="img-fluid">
+                                                </button>
+                                            {% else %}
+                                                 <input type="hidden" name="like-status" value="1">
+                                                <button class="btn btn-primary heart">
+                                                    <img src="{% static 'images/heart.png' %}" alt="heart" class="img-fluid">
+                                                </button>
+                                            {% endif %}
+
+
+
+                                    </form>
+                                    {% comment %}    <a href="#" class="btn btn-primary heart"><img
+                                            src="{% static 'images/heart.png' %}"
+                                            alt="heart" class="img-fluid"></a>{% endcomment %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
-{% endfor %}
-</div>
-</div>
 
 {% endblock %}
 
 {% block script %}
 
+    <script>
+        {% if not user.is_authenticated %}
+
+            $('.heart').click(function () {
+
+                $('#alert').html('<div class="alert alert-primary" role="alert" id="fade">This is a primary alert—check it out! </div>');
+                $('#fade').fadeOut('slow');
+            })
+
+        {% else %}
+            $('.heart').click(function () {
+                $('#like-form').submit();
+            }
 
 
-<script src="{% static 'js/javascript.js' %}"></script>
-<script>
-    let spinList = ["{% static 'images/firstspin.png' %}", "{% static 'images/spin2.png' %}", "{% static 'images/spin3.png' %}",
-    "{% static 'images/spin4.png' %}", "{% static 'images/spin5.png' %}", "{% static 'images/spin6.png' %}",
-"{% static 'images/spin7.png' %}", "{% static 'images/spin8.png' %}"]
+        {% endif %}
 
 
+        {% comment %}{% if user.is_authenticated %}
+
+            $('.heart').click(function () {
+
+                })
+
+        {% endif %}{% endcomment %}
+
+        let spinList = ["{% static 'images/firstspin.png' %}", "{% static 'images/spin2.png' %}", "{% static 'images/spin3.png' %}",
+            "{% static 'images/spin4.png' %}", "{% static 'images/spin5.png' %}", "{% static 'images/spin6.png' %}",
+            "{% static 'images/spin7.png' %}", "{% static 'images/spin8.png' %}"]
 
 
-    function longForLoop(limit) {
-  let i = 0;
-  let ref = setInterval(() => {
-    $('#myp').attr("src", spinList[i % 8])
-      i++
-    if (i == limit) {
-        clearInterval(ref);
-        $('#hide').css('display', 'block')
-        $('#myp').css('display', 'none')
-    }
-  }, 200);
-}
+        function longForLoop(limit) {
+            let i = 0;
+            let ref = setInterval(() => {
+                $('#myp').attr("src", spinList[i % 8])
+                i++
+                if (i == limit) {
+                    clearInterval(ref);
+                    $('#hide').css('display', 'block')
+                    $('#myp').css('display', 'none')
+                }
+            }, 75);
+        }
 
-$('#hide').css('display', 'none')
-longForLoop(35);
+        $('#hide').css('display', 'none')
+        longForLoop(20);
 
 
-</script>
+    </script>
 
 {% endblock %}

@@ -12,9 +12,12 @@
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
 <script src="https://kit.fontawesome.com/30421798af.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <title>HomePage</title>
+    {% block title %}
+        <title>Base</title>
+    {% endblock %}
 </head>
 <body>
+
 
 {% block body %}
 
@@ -25,4 +28,6 @@
 {% block script %}
 
 {% endblock %}
+
+<script src="{% static 'js/javascript.js' %}"></script>
 </html>
