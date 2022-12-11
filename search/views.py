@@ -1,9 +1,11 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Music, Playlist
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+
 
 # Create your views here.
 
@@ -13,10 +15,11 @@ def homepage(request):
 
 def show(request):
     music = Music.objects.all()
-    playlist = Playlist.objects.filter(user=request.user)
     playlist_ids = []
-    for list in playlist:
-        playlist_ids.append(list.music_id)
+    if request.user.is_authenticated:
+        playlist = Playlist.objects.filter(user=request.user)
+        for list in playlist:
+            playlist_ids.append(list.music_id)
 
     print("The playlist", playlist_ids)
     if request.method == 'POST':
@@ -75,4 +78,13 @@ def liked(request):
             item.delete()
             return redirect('show')
     else:
-        return HttpResponse("Something went wrong")
+        return redirect('show')
+
+
+def playlist(request):
+    playlist = Playlist.objects.filter(user=request.user)
+    playlist_ids = []
+    for list in playlist:
+        playlist_ids.append(list.music_id)
+
+    return render(request, 'playlist.html', {'playlist_ids': playlist_ids})
