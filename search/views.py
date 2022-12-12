@@ -1,10 +1,11 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Music, Playlist
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+
 
 
 # Create your views here.
@@ -83,8 +84,9 @@ def liked(request):
 
 def playlist(request):
     playlist = Playlist.objects.filter(user=request.user)
+    current_user = get_user_model()
     playlist_ids = []
     for list in playlist:
         playlist_ids.append(list.music_id)
 
-    return render(request, 'playlist.html', {'playlist_ids': playlist_ids})
+    return render(request, 'playlist.html', {'playlist_ids': playlist_ids, 'playlist': playlist, 'current_user': current_user})

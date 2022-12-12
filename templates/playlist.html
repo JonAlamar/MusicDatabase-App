@@ -3,11 +3,6 @@
 
 {% block body %}
 
-    <h1>{% for music in music %}
-        {% if music.id in playlist_ids %}
-
-        {% endif %}
-    {% endfor %}
-    {{ playlist_ids }}'s Playlist</h1>
+    <h1>{{ user }}'s Playlist</h1>
 
 {% endblock %}
