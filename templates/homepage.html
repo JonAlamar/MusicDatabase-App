@@ -61,11 +61,19 @@
 
 
 
+
+{#    {% for track in track_name %}#}
+{#        <p>{{ track }}</p>#}
+{#    {% endfor %}#}
+
+
+
+
     <div id="hide" class="container rounded bg-white my-5 shadow p-5">
         <div class="row g-2">
             {% for music in music %}
                 <div class="card p-2 m-2 border border-primary" style="width: 18rem;">
-                    <img class="card-img-top" src="{% static music.music_picture.url %}" alt="Card image cap">
+                    <img class="card-img-top" src="{{ music.music_picture }}" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">
                             {{ music.music_title }}
@@ -81,14 +89,15 @@
                                             <input type="hidden" name="music-id" value="{{ music.id }}">
                                             {% if music.id in playlist_ids %}
                                                 <input type="hidden" name="like-status" value="0">
-                                                <button class="btn btn-secondary heart">
+                                                <!-- This heart is for liking, second one is unlike -->
+                                                <button class="btn btn-primary heart">
                                                     <img src="{% static 'images/heart.png' %}" alt="heart"
                                                          class="img-fluid">
                                                 </button>
                                             {% else %}
                                                 <input type="hidden" name="like-status" value="1">
                                                 <button class="btn btn-primary heart">
-                                                    <img src="{% static 'images/heart.png' %}" alt="heart"
+                                                    <img src="{% static 'images/heart-white.png' %}" alt="heart"
                                                          class="img-fluid">
                                                 </button>
                                             {% endif %}

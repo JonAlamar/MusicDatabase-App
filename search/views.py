@@ -5,6 +5,7 @@ from .models import Music, Playlist
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from static.spotify import spotify
 
 
 
@@ -15,6 +16,29 @@ def homepage(request):
 
 
 def show(request):
+    # import spotipy
+    # from spotipy.oauth2 import SpotifyClientCredentials
+    # cid = 'f51d2425b3654997b816dc838de321d9'
+    # secret = '8db96243df26412388227c064fcc5210'
+    # client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
+    # sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+    #
+    # artist_name = []
+    # track_name = []
+    # popularity = []
+    # track_id = []
+    # album_cover = []
+    # for i in range(0, 950, 50):
+    #     track_results = sp.search(q='year:2020', type='track', limit=50, offset=i)
+    #     for i, t in enumerate(track_results['tracks']['items']):
+    #         artist_name.append(t['artists'][0]['name'])
+    #         track_name.append(t['name'])
+    #         track_id.append(t['id'])
+    #         popularity.append(t['popularity'])
+    #         album_cover.append(t['album']['images'][0]['url'])
+
+
+
     music = Music.objects.all()
     playlist_ids = []
     if request.user.is_authenticated:
@@ -31,7 +55,9 @@ def show(request):
         return render(request, 'homepage.html', context)
 
     else:
-        context = {'music': music, 'playlist_ids': playlist_ids}
+        my_zip = zip(spotify.track_name, spotify.artist_name, spotify.album_cover)
+        context = {'music': music, 'playlist_ids': playlist_ids, 'track_name': spotify.track_name,
+                   'artist_name': spotify.artist_name, 'cover_art': spotify.album_cover, 'my_zip': my_zip}
         return render(request, 'homepage.html', context)
 
 
@@ -83,10 +109,28 @@ def liked(request):
 
 
 def playlist(request):
+    """music = Music.objects.all()
     playlist = Playlist.objects.filter(user=request.user)
+    print(playlist)
     current_user = get_user_model()
     playlist_ids = []
     for list in playlist:
         playlist_ids.append(list.music_id)
 
-    return render(request, 'playlist.html', {'playlist_ids': playlist_ids, 'playlist': playlist, 'current_user': current_user})
+    return render(request, 'playlist.html', {'music': music, 'playlist_ids': playlist_ids, 'playlist': playlist, 'current_user': current_user})"""
+
+    music = Music.objects.all()
+    playlist_ids = []
+    if request.user.is_authenticated:
+        playlist = Playlist.objects.filter(user=request.user)
+        for list in playlist:
+            playlist_ids.append(list.music_id)
+
+        print("The playlist", playlist_ids)
+
+        context = {'music': music, 'playlist_ids': playlist_ids}
+        return render(request, 'playlist.html', context)
+
+    else:
+        context = {'music': music, 'playlist_ids': playlist_ids}
+        return render(request, 'homepage.html', context)
