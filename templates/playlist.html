@@ -10,11 +10,11 @@
     <h1>{{ user }}'s Playlist</h1>
 
 
-    <div id="hide" class="container rounded bg-white my-5 shadow p-5">
+    <div style="background-color: lightpink" id="hide" class="container rounded my-5 shadow p-5">
         <div class="row g-2">
             {% for music in music %}
                 {% if music.id in playlist_ids %}
-                    <div class="card p-2 m-2 border border-primary" style="width: 18rem;">
+                    <div class="card p-2 m-2 border-2 shadow border-body" style="width: 18rem; background-color: lightskyblue">
                         <img class="card-img-top" src="{{ music.music_picture }}" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">
