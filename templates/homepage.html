@@ -1,75 +1,30 @@
 {% extends 'base.html' %}
 {% load static %}
 
+
+{% block url %}
+    "{% url 'search' %}"
+{% endblock %}
+
+
 {% block body %}
 
 
-    <nav class="navbar navbar-expand-lg bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                           aria-expanded="false">
-                            Dropdown
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled">Disabled</a>
-                    </li>
-                </ul>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
-            </div>
+    <div class="position-absolute" id="alert"></div>
+    <p style="margin-top: 5rem; color: #fafafa">_</p>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col"><img id="myp" src="" width="300px" class="text-center"></div>
+            <div class="col"></div>
         </div>
-    </nav>
-
-
-    <p>here</p>
-    <img id="myp" src="" width="300px" class="text-center">
-    <p>here</p>
-
-    <div id="alert"></div>
+    </div>
 
 
 
-    {% for message in messages %}
-        <div class="alert alert-danger" role="alert">{{ message }} </div>
-    {% endfor %}
-
-
-
-
-{#    {% for track in track_name %}#}
-{#        <p>{{ track }}</p>#}
-{#    {% endfor %}#}
-
-
-
-
-    <div id="hide" class="container rounded bg-white my-5 shadow p-5">
+    <div style="margin-top: 2rem" id="hide" class="container rounded bg-white shadow p-5">
         <div class="row g-2">
             {% for music in music %}
                 <div class="card p-2 m-2 border border-primary" style="width: 18rem;">
@@ -101,17 +56,13 @@
                                                          class="img-fluid">
                                                 </button>
                                             {% endif %}
-
-
                                         </form>
-
-                                    <!--   <form action="{% url 'playlist' %}" method="post"></form> -->
-                                        <!--{% csrf_token %} -->
-                                            <!--<input type="submit" name="user-id" value="Go to your playlist">-->
-                                        <!--</form>-->
-                                        <a href=" {% url 'playlist' %}">Playlist</a>
-
-                                    {% endif %}
+                                    {% else %}
+                                <button class="btn btn-primary heart">
+                                                    <img src="{% static 'images/heart-white.png' %}" alt="heart"
+                                                         class="img-fluid">
+                                                </button>
+                                {% endif %}
 
                                 </div>
                             </div>
@@ -131,7 +82,7 @@
 
             $('.heart').click(function () {
 
-                $('#alert').html('<div class="alert alert-primary" role="alert" id="fade">This is a primary alert—check it out! </div>');
+                $('#alert').html('<div class="alert alert-warning" role="alert" id="fade">You must be logged in to save a song! </div>');
                 $('#fade').fadeOut(3500);
             })
 
@@ -143,14 +94,6 @@
 
         {% endif %}
 
-
-        {% comment %}{% if user.is_authenticated %}
-
-            $('.heart').click(function () {
-
-                })
-
-        {% endif %}{% endcomment %}
 
         let spinList = ["{% static 'images/firstspin.png' %}", "{% static 'images/spin2.png' %}", "{% static 'images/spin3.png' %}",
             "{% static 'images/spin4.png' %}", "{% static 'images/spin5.png' %}", "{% static 'images/spin6.png' %}",
