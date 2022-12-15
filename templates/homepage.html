@@ -7,7 +7,10 @@
 {% endblock %}
 
 
+
 {% block body %}
+
+
 
 
     <div class="position-absolute" id="alert"></div>
@@ -25,6 +28,10 @@
 
 
     <div style="margin-top: 2rem" id="hide" class="container rounded bg-white shadow p-5">
+        <!-- Script below is placed here so that it will hide the container before it loads. The rest of the script is at bottom of page in another script-->
+        <script>
+            $('#hide').css('display', 'none')
+        </script>
         <div class="row g-2">
             {% for music in music %}
                 <div class="card p-2 m-2 border border-primary" style="width: 18rem;">
@@ -58,11 +65,11 @@
                                             {% endif %}
                                         </form>
                                     {% else %}
-                                <button class="btn btn-primary heart">
-                                                    <img src="{% static 'images/heart-white.png' %}" alt="heart"
-                                                         class="img-fluid">
-                                                </button>
-                                {% endif %}
+                                        <button class="btn btn-primary heart">
+                                            <img src="{% static 'images/heart-white.png' %}" alt="heart"
+                                                 class="img-fluid">
+                                        </button>
+                                    {% endif %}
 
                                 </div>
                             </div>
@@ -113,7 +120,6 @@
             }, 75);
         }
 
-        $('#hide').css('display', 'none')
         longForLoop(20);
 
 
