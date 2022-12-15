@@ -7,14 +7,11 @@
 {% endblock %}
 
 
-
 {% block body %}
 
 
-
-
     <div class="position-absolute" id="alert"></div>
-    <p style="margin-top: 5rem; color: #fafafa">_</p>
+    <p style="margin-top: 5rem; color: black">_</p>
 
 
     <div class="container">
@@ -27,14 +24,14 @@
 
 
 
-    <div style="margin-top: 2rem" id="hide" class="container rounded bg-white shadow p-5">
+    <div style="margin-top: 2rem; background-color: lightpink" id="hide" class="container rounded shadow p-5">
         <!-- Script below is placed here so that it will hide the container before it loads. The rest of the scripts is at bottom of page in another script-->
         <script>
             $('#hide').css('display', 'none')
         </script>
         <div class="row g-2">
             {% for music in music %}
-                <div class="card p-2 m-2 border border-primary" style="width: 18rem;">
+                <div class="card p-2 m-2 border-2 border-body shadow" style="width: 18rem; background-color: lightskyblue">
                     <img class="card-img-top" src="{{ music.music_picture }}" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">
