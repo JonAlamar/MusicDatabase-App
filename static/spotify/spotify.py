@@ -2,8 +2,8 @@
 # from spotipy.oauth2 import SpotifyClientCredentials
 # from search.models import Music
 #
-# cid = 'f51d2425b3654997b816dc838de321d9'
-# secret = '8db96243df26412388227c064fcc5210'
+# cid = '*****************************'
+# secret = '*****************************'
 # client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
 # sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 #
